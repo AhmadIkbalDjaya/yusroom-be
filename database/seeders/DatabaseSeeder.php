@@ -34,6 +34,12 @@ class DatabaseSeeder extends Seeder
             "description" => "",
             "is_active" => true,
         ]);
+        Room::create([
+            "name" => "Ruang Rapat2",
+            "capacity" => 15,
+            "description" => "Ruang Rapat ke dua",
+            "is_active" => false,
+        ]);
 
         Booking::create([
             "user_id" => 1,
@@ -57,7 +63,7 @@ class DatabaseSeeder extends Seeder
             "booking_date" => "2023-03-29",
             "start_time" => "13:00:00",
             "end_time" => "14:00:00",
-            "is_approved" => false,
+            // "is_approved" => false,
         ]);
         // \App\Models\User::factory(10)->create();
 

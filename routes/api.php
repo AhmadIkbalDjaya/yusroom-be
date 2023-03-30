@@ -2,7 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +27,18 @@ Route::prefix('admin')->group(function () {
         Route::patch("approve/{booking}", "approve");
     });
 });
+
+Route::prefix('employee')->group(function () {
+    Route::controller(RoomController::class)->group(function () {
+        Route::get('room', 'index');
+        Route::get('room/{room}', 'show');
+    });
+    Route::controller(BookingController::class)->group(function () {
+        Route::post('booking', "store");
+        Route::get('booking/{booking}', "show");
+        Route::patch('booking/{booking}', "update");
+        Route::delete("booking/{booking}", "destroy");
+    });
+});
+
+
