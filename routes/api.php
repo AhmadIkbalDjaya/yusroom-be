@@ -19,4 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/admin/bookingRequest', [AdminController::class, "bookingRequest"]);
+Route::prefix('admin')->group(function () {
+    Route::controller(AdminController::class)->group(function () {
+        Route::get('bookingRequest', "bookingRequest");
+        Route::patch("approve/{booking}", "approve");
+    });
+});
