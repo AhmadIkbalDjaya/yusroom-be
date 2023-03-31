@@ -3,12 +3,26 @@
 namespace App\Exceptions;
 
 use Throwable;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json([
+                "responseCode" => 401,
+                "responseStatus" => "Unauthorized",
+                "responseMassage" => "Unauthenticated",
+                'errors' => 'Unauthenticated'
+            ], 401);
+        }
+        // return redirect()->guest(route('login'));
+    }
+
     protected function invalidJson($request, ValidationException $exception) {
         return response()->json([
             "responseCode" => 422,
