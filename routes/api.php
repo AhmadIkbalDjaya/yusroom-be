@@ -43,6 +43,7 @@ Route::prefix('employee')->group(function () {
             Route::get('room/{room}', 'show');
         });
         Route::controller(BookingController::class)->group(function () {
+            Route::get('booking', 'index');
             Route::post('booking', "store");
             Route::get('booking/{booking}', "show");
             Route::patch('booking/{booking}', "update");
