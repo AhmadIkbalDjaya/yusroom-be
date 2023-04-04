@@ -19,6 +19,7 @@ class AuthenticationController extends Controller
             return response()->base_response('', 401, "Unauthorized", "Incorrect nik or password");
         }
         $data['access_token'] = $user->createToken('admin_token')->plainTextToken;
+        $data["user_id"] = $user->id;
         return response()->base_response($data, 200, "OK", "Login Success");
         // return $user->createToken('user login')->plainTextToken;
     }
