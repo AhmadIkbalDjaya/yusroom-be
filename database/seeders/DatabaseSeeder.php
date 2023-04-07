@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
         Booking::create([
             "user_id" => 1,
             "room_id" => 1,
-            "booking_date" => "2023-03-30",
+            "booking_date" => "2023-04-07",
             "start_time" => "09:00:00",
             "end_time" => "10:00:00",
             "is_approved" => false,
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
         Booking::create([
             "user_id" => 2,
             "room_id" => 1,
-            "booking_date" => "2023-03-31",
+            "booking_date" => "2023-04-07",
             "start_time" => "13:00:00",
             "end_time" => "14:00:00",
             "is_approved" => false,
@@ -67,8 +67,24 @@ class DatabaseSeeder extends Seeder
         Booking::create([
             "user_id" => 2,
             "room_id" => 1,
-            "booking_date" => "2023-03-29",
+            "booking_date" => "2023-04-07",
             "start_time" => "13:00:00",
+            "end_time" => "14:00:00",
+            // "is_approved" => false,
+        ]);
+        Booking::create([
+            "user_id" => 2,
+            "room_id" => 1,
+            "booking_date" => "2023-04-07",
+            "start_time" => "13:30:00",
+            "end_time" => "14:00:00",
+            // "is_approved" => false,
+        ]);
+        Booking::create([
+            "user_id" => 2,
+            "room_id" => 1,
+            "booking_date" => "2023-04-07",
+            "start_time" => "13:50:00",
             "end_time" => "14:00:00",
             // "is_approved" => false,
         ]);
