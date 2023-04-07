@@ -20,7 +20,7 @@ class AdminMiddleware
                 "responseCode" => 403,
                 "responseStatus" => "error",
                 "responseMassage" => "Access forbidden. You are not authorized to perform this action.",
-                'errors' => 'Unauthorized'
+                'errors' => 'Unauthorized',
             ], 403);
         }
         return $next($request);
