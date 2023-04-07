@@ -21,7 +21,7 @@ class BookingController extends Controller
         "start_time" => "required|date_format:H:i:s|before:time_out",
         "end_time" => "required|date_format:H:i:s|after:time_in",
       ]);
-      $validated["booking_date"] = Carbon::now()->format("Y-m-d");
+      $validated["booking_date"] = Carbon::now("Asia/Makassar")->format("Y-m-d");
       Booking::create($validated);
       return response()->base_response("", 201, "Created", "Booking berhasil ditambahkan, silakah tunggu persetujuan admin");
     }
