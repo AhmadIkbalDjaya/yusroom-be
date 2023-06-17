@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminRoonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\Admin\AdminTimeController;
+use App\Http\Controllers\Admin\AdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,12 +26,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('admin')->group(function () {
-    Route::controller(AdminController::class)->group(function () {
-        Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-            Route::get('bookingRequest', "bookingRequest");
-            Route::patch("approve/{booking}", "approve");
-        });
-    });
+    Route::resource('time', AdminTimeController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('room', AdminRoonController::class)->except(['create', 'edit']);
+    Route::resource('user', AdminUserController::class)->except(['create', 'edit']);
+    // Route::controller(AdminController::class)->group(function () {
+    //     Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    //         Route::get('bookingRequest', "bookingRequest");
+    //         Route::patch("approve/{booking}", "approve");
+    //     });
+    // });
 });
 
 Route::controller(AuthenticationController::class)->group(function () {
