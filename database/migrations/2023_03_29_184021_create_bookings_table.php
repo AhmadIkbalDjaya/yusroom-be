@@ -21,6 +21,7 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->boolean('is_approved')->nullable()->default(null);
+            $table->string('description');
             $table->timestamps();
         });
     }

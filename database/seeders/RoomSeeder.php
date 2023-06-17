@@ -16,14 +16,14 @@ class RoomSeeder extends Seeder
         Room::create([
             "name" => "Ruang Rapat",
             // "capacity" => 25,
-            "image" => "/images/dsada.jpf",
+            "image" => "rooms/default.jpg",
             "description" => "",
             "is_active" => true,
         ]);
         Room::create([
             "name" => "Ruang Rapat2",
             // "capacity" => 15,
-            "image" => "/images/dsada.jpf",
+            "image" => "rooms/default.jpg",
             "description" => "Ruang Rapat ke dua",
             "is_active" => false,
         ]);

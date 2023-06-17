@@ -9,6 +9,8 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\Admin\AdminTimeController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\User\UserRoomController;
+use App\Http\Controllers\User\UserBookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +39,14 @@ Route::prefix('admin')->group(function () {
     // });
 });
 
+Route::prefix('user')->group(function () {
+    Route::get('room', [UserRoomController::class, 'index']);
+    Route::get('booking/room/{room}', [UserBookingController::class, 'index']);
+    Route::post('booking', [UserBookingController::class, 'store']);
+    Route::get('myBooking', [UserBookingController::class, 'myBooking']);
+    Route::delete('booking/{booking}', [UserBookingController::class, 'destroy']);
+});
+
 Route::controller(AuthenticationController::class)->group(function () {
     Route::post('login', 'login');
     Route::get('logout', 'logout')->middleware(['auth:sanctum']);
@@ -57,5 +67,3 @@ Route::prefix('employee')->group(function () {
         });
     });
 });
-
-
