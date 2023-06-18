@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminBookingController;
 use App\Http\Controllers\Admin\AdminRoonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,8 @@ Route::prefix('admin')->group(function () {
     Route::resource('time', AdminTimeController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('room', AdminRoonController::class)->except(['create', 'edit']);
     Route::resource('user', AdminUserController::class)->except(['create', 'edit']);
+    Route::get("bookingRequest", [AdminBookingController::class, 'bookingRequest']);
+    Route::patch("bookingRequest/approve/{booking}", [AdminBookingController::class, 'approve']);
     // Route::controller(AdminController::class)->group(function () {
     //     Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     //         Route::get('bookingRequest', "bookingRequest");
@@ -52,18 +55,18 @@ Route::controller(AuthenticationController::class)->group(function () {
     Route::get('logout', 'logout')->middleware(['auth:sanctum']);
 });
 
-Route::prefix('employee')->group(function () {
-    Route::middleware(['auth:sanctum'])->group(function () {
-        Route::controller(RoomController::class)->group(function () {
-            Route::get('room', 'index');
-            Route::get('room/{room}', 'show');
-        });
-        Route::controller(BookingController::class)->group(function () {
-            Route::get('booking', 'index');
-            Route::post('booking', "store");
-            Route::get('booking/{booking}', "show");
-            Route::patch('booking/{booking}', "update");
-            Route::delete("booking/{booking}", "destroy");
-        });
-    });
-});
+// Route::prefix('employee')->group(function () {
+//     Route::middleware(['auth:sanctum'])->group(function () {
+//         Route::controller(RoomController::class)->group(function () {
+//             Route::get('room', 'index');
+//             Route::get('room/{room}', 'show');
+//         });
+//         Route::controller(BookingController::class)->group(function () {
+//             Route::get('booking', 'index');
+//             Route::post('booking', "store");
+//             Route::get('booking/{booking}', "show");
+//             Route::patch('booking/{booking}', "update");
+//             Route::delete("booking/{booking}", "destroy");
+//         });
+//     });
+// });

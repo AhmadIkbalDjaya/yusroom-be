@@ -7,6 +7,7 @@ use App\Models\Time;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BookingResource;
 use Carbon\Carbon;
 use PhpParser\Node\Expr\Cast\Bool_;
 
@@ -41,7 +42,7 @@ class UserBookingController extends Controller
     public function myBooking()
     {
         $data = Booking::where("user_id", 1)->latest()->get();
-        return response()->base_response($data);
+        return response()->base_response(BookingResource::collection($data));
     }
 
     public function destroy(Booking $booking)
