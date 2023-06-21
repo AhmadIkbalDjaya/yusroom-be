@@ -1,17 +1,15 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminBookingController;
-use App\Http\Controllers\Admin\AdminRoonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RoomController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BookingController;
+use App\Http\Controllers\User\UserRoomController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\Admin\AdminRoomController;
+use App\Http\Controllers\Admin\AdminRoonController;
 use App\Http\Controllers\Admin\AdminTimeController;
 use App\Http\Controllers\Admin\AdminUserController;
-use App\Http\Controllers\User\UserRoomController;
 use App\Http\Controllers\User\UserBookingController;
+use App\Http\Controllers\Admin\AdminBookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('admin')->group(function () {
     Route::resource('time', AdminTimeController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('room', AdminRoonController::class)->except(['create', 'edit']);
+    Route::resource('room', AdminRoomController::class)->except(['create', 'edit']);
     Route::resource('user', AdminUserController::class)->except(['create', 'edit']);
     Route::get("bookingRequest", [AdminBookingController::class, 'bookingRequest']);
     Route::patch("bookingRequest/approve/{booking}", [AdminBookingController::class, 'approve']);
@@ -48,6 +46,9 @@ Route::prefix('user')->group(function () {
     Route::post('booking', [UserBookingController::class, 'store']);
     Route::get('myBooking', [UserBookingController::class, 'myBooking']);
     Route::delete('booking/{booking}', [UserBookingController::class, 'destroy']);
+    Route::post('users/{id}', function ($id) {
+        
+    });
 });
 
 Route::controller(AuthenticationController::class)->group(function () {

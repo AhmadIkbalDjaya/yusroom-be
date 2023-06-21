@@ -7,14 +7,19 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
-class AdminRoonController extends Controller
+class AdminRoomController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return response()->base_response(Room::latest()->get());
+        $data = Room::latest()->get();
+        $modifiedData = $data->map(function ($room) {
+            $room->image = url("storage/$room->image");
+            return $room;
+        });
+        return response()->base_response($data);
     }
 
     /**
@@ -48,6 +53,7 @@ class AdminRoonController extends Controller
      */
     public function show(Room $room)
     {
+        $room->image = url("storage/$room->image");
         return response()->base_response($room);
     }
 
