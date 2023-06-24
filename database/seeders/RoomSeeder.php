@@ -27,5 +27,12 @@ class RoomSeeder extends Seeder
             "description" => "Ruang Rapat ke dua",
             "is_active" => false,
         ]);
+        Room::create([
+            "name" => "Ruang Rapat3",
+            // "capacity" => 25,
+            "image" => "rooms/default.jpg",
+            "description" => "ruang rapat 3",
+            "is_active" => true,
+        ]);
     }
 }

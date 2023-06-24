@@ -10,6 +10,11 @@ class UserRoomController extends Controller
 {
     public function index()
     {
-        return response()->base_response(Room::where("is_active", 1)->get());
+        $data = Room::where("is_active", 1)->get();
+        $modifiedData = $data->map(function ($room) {
+            $room->image = url("storage/$room->image");
+            return $room;
+        });
+        return response()->base_response($data);
     }
 }

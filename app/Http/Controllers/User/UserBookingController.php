@@ -15,6 +15,7 @@ class UserBookingController extends Controller
 {
     public function index(Room $room)
     {
+        $room->image = url("storage/$room->image");
         $data = [
             "room" => $room,
             "times" => Time::orderBy("start_time")->get(),
