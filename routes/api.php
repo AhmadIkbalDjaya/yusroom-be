@@ -26,28 +26,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('admin')->group(function () {
-    Route::resource('time', AdminTimeController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('room', AdminRoomController::class)->except(['create', 'edit']);
-    Route::resource('user', AdminUserController::class)->except(['create', 'edit']);
-    Route::get("bookingRequest", [AdminBookingController::class, 'bookingRequest']);
-    Route::patch("bookingRequest/approve/{booking}", [AdminBookingController::class, 'approve']);
-    // Route::controller(AdminController::class)->group(function () {
-    //     Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-    //         Route::get('bookingRequest', "bookingRequest");
-    //         Route::patch("approve/{booking}", "approve");
-    //     });
-    // });
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::resource('time', AdminTimeController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('room', AdminRoomController::class)->except(['create', 'edit']);
+        Route::resource('user', AdminUserController::class)->except(['create', 'edit']);
+        Route::get("bookingRequest", [AdminBookingController::class, 'bookingRequest']);
+        Route::patch("bookingRequest/approve/{booking}", [AdminBookingController::class, 'approve']);
+    });
 });
 
-Route::prefix('user')->group(function () {
-    Route::get('room', [UserRoomController::class, 'index']);
-    Route::get('booking/room/{room}', [UserBookingController::class, 'index']);
-    Route::post('booking', [UserBookingController::class, 'store']);
-    Route::get('myBooking', [UserBookingController::class, 'myBooking']);
-    Route::delete('booking/{booking}', [UserBookingController::class, 'destroy']);
-    Route::post('users/{id}', function ($id) {
-        
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::prefix('user')->group(function () {
+        Route::get('room', [UserRoomController::class, 'index']);
+        Route::get('booking/room/{room}', [UserBookingController::class, 'index']);
+        Route::post('booking', [UserBookingController::class, 'store']);
+        Route::get('myBooking', [UserBookingController::class, 'myBooking']);
+        Route::delete('booking/{booking}', [UserBookingController::class, 'destroy']);
+        Route::post('users/{id}', function ($id) {
+        });
     });
 });
 
@@ -56,18 +53,3 @@ Route::controller(AuthenticationController::class)->group(function () {
     Route::get('logout', 'logout')->middleware(['auth:sanctum']);
 });
 
-// Route::prefix('employee')->group(function () {
-//     Route::middleware(['auth:sanctum'])->group(function () {
-//         Route::controller(RoomController::class)->group(function () {
-//             Route::get('room', 'index');
-//             Route::get('room/{room}', 'show');
-//         });
-//         Route::controller(BookingController::class)->group(function () {
-//             Route::get('booking', 'index');
-//             Route::post('booking', "store");
-//             Route::get('booking/{booking}', "show");
-//             Route::patch('booking/{booking}', "update");
-//             Route::delete("booking/{booking}", "destroy");
-//         });
-//     });
-// });

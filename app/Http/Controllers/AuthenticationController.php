@@ -10,10 +10,10 @@ class AuthenticationController extends Controller
 {
     public function login (Request $request) {
         $request->validate([
-            'nik' => 'required',
+            'username' => 'required',
             'password' => 'required'
         ]);
-        $user = User::where('nik', $request->nik)->first();
+        $user = User::where('username', $request->username)->first();
 
         if(!$user || !Hash::check($request->password, $user->password)){
             return response()->base_response('', 401, "Unauthorized", "Incorrect nik or password");
