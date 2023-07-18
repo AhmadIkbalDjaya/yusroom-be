@@ -16,9 +16,22 @@ class UserBookingController extends Controller
     public function index(Room $room)
     {
         $room->image = url("storage/$room->image");
+        $times = Time::orderBy("start_time")->get();
+
+        $timeData = $times->map(function ($time) use ($room) {
+            $booking = Booking::where("booking_date", Carbon::now()->format("Y-m-d"))
+                ->where("room_id", $room->id)
+                ->where("start_time", $time->start_time)
+                ->where("end_time", $time->end_time)
+                ->exists();
+
+            $time->is_booking = $booking;
+
+            return $time;
+        });
         $data = [
             "room" => $room,
-            "times" => Time::orderBy("start_time")->get(),
+            "times" => $timeData,
             "confirmedBookings" => Booking::where("booking_date", Carbon::now()->format("Y-m-d"))
                 ->where("room_id", $room->id)
                 ->get()
@@ -26,6 +39,15 @@ class UserBookingController extends Controller
         return response()->base_response($data);
     }
 
+    // public function  roomShow(Room $room) {
+    //     $room->image = url("storage/$room->image");
+    //     return response()->base_response($room);
+    // }
+
+    // public function times(Room $room) {
+    //     $data = Time::orderBy("start_time")->get();
+    //     return response()->base_response($data);
+    // }
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -34,7 +56,7 @@ class UserBookingController extends Controller
             "end_time" => "required",
             "description" => "required|string",
         ]);
-        $validated["user_id"] = "1";
+        $validated["user_id"] = auth()->user()->id;
         $validated["booking_date"] = Carbon::now()->format("Y-m-d");
         Booking::create($validated);
         return response()->base_response([], 201, "Created", "Booking berhasil ditambahkan");
