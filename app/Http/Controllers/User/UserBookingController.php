@@ -26,7 +26,8 @@ class UserBookingController extends Controller
                 ->exists();
 
             $time->is_booking = $booking;
-
+            $time->start_time = Carbon::parse($time->start_time)->format("H:i");
+            $time->end_time = Carbon::parse($time->end_time)->format("H:i");
             return $time;
         });
         $data = [
