@@ -71,10 +71,10 @@ class UserBookingController extends Controller
 
     public function destroy(Booking $booking)
     {
-        if ($booking->is_approved == 1 || $booking->is_approved == 0) {
-            return response()->base_response([], 404, "Not Ok", "Booking yang telah disetujui tidak dapat dihapus");
+        if ($booking->is_approved == null) {
+            $booking->delete();
+            return response()->base_response([], 200, "OK", "Data berhasil dihapus");
         }
-        $booking->delete();
-        return response()->base_response([], 200, "OK", "Data berhasil dihapus");
+        return response()->base_response([], 400, "Bad Request", "Booking yang telah disetujui tidak dapat dihapus");
     }
 }
