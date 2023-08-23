@@ -12,7 +12,7 @@ class AdminBookingController extends Controller
 {
     public function bookingRequest()
     {
-        $data = Booking::whereDate('booking_date', Carbon::now("Asia/Makassar"))->latest()->get();
+        $data = Booking::whereDate('booking_date', Carbon::now())->latest()->get();
         return response()->base_response(BookingResource::collection($data));
     }
 
