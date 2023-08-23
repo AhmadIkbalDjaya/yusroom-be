@@ -18,6 +18,7 @@ class BookingResource extends JsonResource
             "id" => $this->id,
             "user_name" => $this->user->name,
             "room_name" => $this->room->name,
+            "room_image" => url("storage/".$this->room->image),
             "booking_date" => $this->booking_date,
             "start_time" => $this->start_time,
             "end_time" => $this->end_time,

@@ -43,8 +43,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('booking', [UserBookingController::class, 'store']);
         Route::get('myBooking', [UserBookingController::class, 'myBooking']);
         Route::delete('booking/{booking}', [UserBookingController::class, 'destroy']);
-        Route::post('users/{id}', function ($id) {
-        });
     });
 });
 
