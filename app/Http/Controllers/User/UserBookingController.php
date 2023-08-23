@@ -40,15 +40,6 @@ class UserBookingController extends Controller
         return response()->base_response($data);
     }
 
-    // public function  roomShow(Room $room) {
-    //     $room->image = url("storage/$room->image");
-    //     return response()->base_response($room);
-    // }
-
-    // public function times(Room $room) {
-    //     $data = Time::orderBy("start_time")->get();
-    //     return response()->base_response($data);
-    // }
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -65,16 +56,16 @@ class UserBookingController extends Controller
 
     public function myBooking()
     {
-        $data = Booking::where("user_id", 1)->latest()->get();
+        $data = Booking::where("user_id", auth()->user()->id)->latest()->get();
         return response()->base_response(BookingResource::collection($data));
     }
 
     public function destroy(Booking $booking)
     {
-        if ($booking->is_approved == null) {
-            $booking->delete();
-            return response()->base_response([], 200, "OK", "Data berhasil dihapus");
+        if ($booking->is_approved == 1) {
+            return response()->base_response([], 400, "Bad Request", "Booking yang telah disetujui tidak dapat dihapus");
         }
-        return response()->base_response([], 400, "Bad Request", "Booking yang telah disetujui tidak dapat dihapus");
+        $booking->delete();
+        return response()->base_response([], 200, "OK", "Data berhasil dihapus");
     }
 }

@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::resource('time', AdminTimeController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('room', AdminRoomController::class)->except(['create', 'edit']);
@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::get("bookingRequest", [AdminBookingController::class, 'bookingRequest']);
         Route::patch("bookingRequest/approve/{booking}", [AdminBookingController::class, 'approve']);
     });
-// });
+});
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('user')->group(function () {
@@ -43,8 +43,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('booking', [UserBookingController::class, 'store']);
         Route::get('myBooking', [UserBookingController::class, 'myBooking']);
         Route::delete('booking/{booking}', [UserBookingController::class, 'destroy']);
-        Route::post('users/{id}', function ($id) {
-        });
     });
 });
 
