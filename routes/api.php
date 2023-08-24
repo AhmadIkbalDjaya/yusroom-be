@@ -48,6 +48,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::controller(AuthenticationController::class)->group(function () {
     Route::post('login', 'login');
+    Route::post('admin/login', 'adminLogin');
     Route::get('logout', 'logout')->middleware(['auth:sanctum']);
 });
-
