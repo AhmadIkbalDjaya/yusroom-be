@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserRoomController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\Admin\AdminRoomController;
-use App\Http\Controllers\Admin\AdminRoonController;
 use App\Http\Controllers\Admin\AdminTimeController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\User\UserBookingController;
