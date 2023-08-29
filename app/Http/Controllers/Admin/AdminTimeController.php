@@ -42,7 +42,7 @@ class AdminTimeController extends Controller
      */
     public function show(Time $time)
     {
-        //
+        return response()->base_response($time);
     }
 
     /**

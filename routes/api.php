@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::prefix('admin')->group(function () {
-        Route::resource('time', AdminTimeController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('time', AdminTimeController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
         Route::resource('room', AdminRoomController::class)->except(['create', 'edit']);
         Route::resource('user', AdminUserController::class)->except(['create', 'edit']);
         Route::get("bookingRequest", [AdminBookingController::class, 'bookingRequest']);

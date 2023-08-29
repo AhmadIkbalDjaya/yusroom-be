@@ -81,6 +81,8 @@ class AdminRoomController extends Controller
                 Storage::delete($room->image);
             }
             $validated["image"] = $request->file("image")->store("rooms");
+        }else {
+            unset($validated["image"]);
         }
         $room->update($validated);
         return response()->base_response([], 200, "OK", "Data berhasil diedit");
