@@ -9,30 +9,16 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminRoomController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $data = Room::latest()->get();
-        $modifiedData = $data->map(function ($room) {
+        $data->map(function ($room) {
             $room->image = url("storage/$room->image");
             return $room;
         });
         return response()->base_response($data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -42,32 +28,24 @@ class AdminRoomController extends Controller
             "is_active" => "boolean",
         ]);
         if ($request->image) {
-            $validated["image"] = $request->file("image")->store("rooms");
+            $validated["image"] = $request->file("image")->storePublicly("rooms", "public");
         }
-        Room::create($validated);
-        return response()->base_response([], 201, "Created", "Data berhasil ditambahkan");
+        try {
+            $room = Room::create($validated);
+            return response()->base_response($room, 201, "Created", "Data berhasil ditambahkan");
+        } catch (\Throwable $th) {
+            return response()->base_response([
+                "message" => $th->getMessage(),
+            ], 500, "Internal Server Error", "Terjadi kesalahan internal server");
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Room $room)
     {
         $room->image = url("storage/$room->image");
         return response()->base_response($room);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Room $room)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Room $room)
     {
         $validated = $request->validate([
@@ -77,26 +55,35 @@ class AdminRoomController extends Controller
             "is_active" => "boolean",
         ]);
         if ($request->image) {
-            if ($room->image != "rooms/default.jpg") {
+            if ($room->image != "rooms/default.jpg" && Storage::exists($room->image)) {
                 Storage::delete($room->image);
             }
-            $validated["image"] = $request->file("image")->store("rooms");
-        }else {
+            $validated["image"] = $request->file("image")->storePublicly("rooms", "public");
+        } else {
             unset($validated["image"]);
         }
-        $room->update($validated);
-        return response()->base_response([], 200, "OK", "Data berhasil diedit");
+        try {
+            $room->update($validated);
+            return response()->base_response($room, 200, "OK", "Data berhasil diedit");
+        } catch (\Throwable $th) {
+            return response()->base_response([
+                "message" => $th->getMessage(),
+            ], 500, "Internal Server Error", "Terjadi kesalahan internal server");
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Room $room)
     {
-        if ($room->image != "rooms/default.jpg") {
-            Storage::delete($room->image);
+        try {
+            if ($room->image != "rooms/default.jpg" && Storage::exists($room->image)) {
+                Storage::delete($room->image);
+            }
+            $room->delete();
+            return response()->base_response([], 200, "OK", "Data berhasil dihapus");
+        } catch (\Throwable $th) {
+            return response()->base_response([
+                "message" => $th->getMessage(),
+            ], 500, "Internal Server Error", "Terjadi kesalahan internal server");
         }
-        $room->delete();
-        return response()->base_response([], 200, "OK", "Data berhasil dihapus");
     }
 }

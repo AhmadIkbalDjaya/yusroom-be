@@ -23,6 +23,9 @@ return new class extends Migration
             $table->boolean('is_approved')->nullable()->default(null);
             $table->string('description');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on("users")->onDelete("cascade");
+            $table->foreign('room_id')->references("id")->on("rooms")->onDelete("cascade");
         });
     }
 

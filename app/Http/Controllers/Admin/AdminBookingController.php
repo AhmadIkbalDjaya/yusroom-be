@@ -21,7 +21,13 @@ class AdminBookingController extends Controller
         $validated = $request->validate([
             "is_approved" => "required|boolean",
         ]);
-        $booking->update($validated);
-        return response()->base_response([], 200, "OK", "Status booking berhasil diperbaharui");
+        try {
+            $booking->update($validated);
+            return response()->base_response([], 200, "OK", "Status booking berhasil diperbaharui");
+        } catch (\Throwable $th) {
+            return response()->base_response([
+                "message" => $th->getMessage(),
+            ], 500, "Internal Server Error", "Terjadi kesalahan internal server");
+        }
     }
 }
