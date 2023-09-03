@@ -14,24 +14,21 @@ class RoomSeeder extends Seeder
     public function run(): void
     {
         Room::create([
-            "name" => "Ruang Rapat",
-            // "capacity" => 25,
+            "name" => "Ruangan 1",
             "image" => "rooms/default.jpg",
-            "description" => "",
+            "description" => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non quis eos excepturi accusantium, doloribus dolorem?",
             "is_active" => true,
         ]);
         Room::create([
-            "name" => "Ruang Rapat2",
-            // "capacity" => 15,
+            "name" => "Ruangan 2",
             "image" => "rooms/default.jpg",
-            "description" => "Ruang Rapat ke dua",
+            "description" => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non quis eos excepturi accusantium, doloribus dolorem?",
             "is_active" => false,
         ]);
         Room::create([
-            "name" => "Ruang Rapat3",
-            // "capacity" => 25,
+            "name" => "Ruangan 3",
             "image" => "rooms/default.jpg",
-            "description" => "ruang rapat 3",
+            "description" => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non quis eos excepturi accusantium, doloribus dolorem?",
             "is_active" => true,
         ]);
     }

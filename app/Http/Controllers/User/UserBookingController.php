@@ -50,8 +50,14 @@ class UserBookingController extends Controller
         ]);
         $validated["user_id"] = auth()->user()->id;
         $validated["booking_date"] = Carbon::now()->format("Y-m-d");
-        Booking::create($validated);
-        return response()->base_response([], 201, "Created", "Booking berhasil ditambahkan");
+        try {
+            Booking::create($validated);
+            return response()->base_response([], 201, "Created", "Booking berhasil ditambahkan");
+        } catch (\Throwable $th) {
+            return response()->base_response([
+                "message" => $th->getMessage(),
+            ], 500, "Internal Server Error", "Terjadi kesalahan internal server");
+        }
     }
 
     public function myBooking()
@@ -65,7 +71,13 @@ class UserBookingController extends Controller
         if ($booking->is_approved == 1) {
             return response()->base_response([], 400, "Bad Request", "Booking yang telah disetujui tidak dapat dihapus");
         }
-        $booking->delete();
-        return response()->base_response([], 200, "OK", "Data berhasil dihapus");
+        try {
+            $booking->delete();
+            return response()->base_response([], 200, "OK", "Data berhasil dihapus");
+        } catch (\Throwable $th) {
+            return response()->base_response([
+                "message" => $th->getMessage(),
+            ], 500, "Internal Server Error", "Terjadi kesalahan internal server");
+        }
     }
 }

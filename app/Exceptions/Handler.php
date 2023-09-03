@@ -20,12 +20,11 @@ class Handler extends ExceptionHandler
                 'errors' => 'Unauthenticated'
             ], 401);
         }
-        // return redirect()->guest(route('login'));
     }
 
     protected function invalidJson($request, ValidationException $exception) {
         return response()->json([
-            "responseCode" => 422,
+            "responseCode" => $exception->status,
             "responseStatus" => "Unprocessable Entity",
             "responseMassage" => "The given data was invalid.",
             'errors' => $exception->errors(),
@@ -73,7 +72,7 @@ class Handler extends ExceptionHandler
                 "responseCode" => 404,
                 "responseStatus" => "Not Found",
                 "responseMassage" => "Not Found",
-            ]);
+            ], 404);
         });
     }
 }
