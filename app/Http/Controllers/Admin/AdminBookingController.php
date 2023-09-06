@@ -21,6 +21,17 @@ class AdminBookingController extends Controller
         $validated = $request->validate([
             "is_approved" => "required|boolean",
         ]);
+        if ($request->is_approved == '1') {
+            $hasBooking = Booking::where('booking_date', Carbon::now()->isoFormat("Y-M-D"))
+                                ->where("start_time", $booking->start_time)
+                                ->where("end_time", $booking->end_time)
+                                ->where("is_approved", "1")
+                                ->where("id", "!=", $booking->id)
+                                ->count();
+            if ($hasBooking > 0) {
+                return response()->base_response([], 400, "Bad Request", "Ruangan Sudah di booking untuk jadwal yang sama");
+            }
+        }
         try {
             $booking->update($validated);
             return response()->base_response([], 200, "OK", "Status booking berhasil diperbaharui");
