@@ -10,7 +10,7 @@ class AdminTimeController extends Controller
 {
     public function index()
     {
-        return response()->base_response(Time::orderBy('start_time')->get());
+        return response()->base_response(Time::select('id','start_time','end_time')->orderBy('start_time')->get());
     }
 
     public function store(Request $request)
