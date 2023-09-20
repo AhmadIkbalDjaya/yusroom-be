@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,8 +21,8 @@ class BookingResource extends JsonResource
             "room_name" => $this->room->name,
             "room_image" => url("storage/".$this->room->image),
             "booking_date" => $this->booking_date,
-            "start_time" => $this->start_time,
-            "end_time" => $this->end_time,
+            "start_time" => Carbon::parse($this->start_time)->format("H:i"),
+            "end_time" => Carbon::parse($this->end_time)->format("H:i"),
             "is_approved" => $this->is_approved,
             "description" => $this->description,
             "created_at" => $this->created_at,
